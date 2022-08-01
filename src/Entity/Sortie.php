@@ -3,44 +3,34 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=SortieRepository::class)
- */
+#[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=30)
-     */
-    private $nom;
+    #[ORM\Column(length: 30)]
+    private ?string $nom = null;
 
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $dateHeureDebut;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateHeurDebut = null;
 
-    /**
-     * @ORM\Column(type="dateinterval")
-     */
-    private $duree;
+    #[ORM\Column]
+    private ?\DateInterval $duree = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $nbInscriptionsMax;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateLimiteInscription = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $infosSortie;
+    #[ORM\Column]
+    private ?int $mbInscriptionMax = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $infosSortie = null;
 
     public function getId(): ?int
     {
@@ -59,14 +49,14 @@ class Sortie
         return $this;
     }
 
-    public function getDateHeureDebut(): ?\DateTimeInterface
+    public function getDateHeurDebut(): ?\DateTimeInterface
     {
-        return $this->dateHeureDebut;
+        return $this->dateHeurDebut;
     }
 
-    public function setDateHeureDebut(\DateTimeInterface $dateHeureDebut): self
+    public function setDateHeurDebut(\DateTimeInterface $dateHeurDebut): self
     {
-        $this->dateHeureDebut = $dateHeureDebut;
+        $this->dateHeurDebut = $dateHeurDebut;
 
         return $this;
     }
@@ -83,14 +73,26 @@ class Sortie
         return $this;
     }
 
-    public function getNbInscriptionsMax(): ?int
+    public function getDateLimiteInscription(): ?\DateTimeInterface
     {
-        return $this->nbInscriptionsMax;
+        return $this->dateLimiteInscription;
     }
 
-    public function setNbInscriptionsMax(int $nbInscriptionsMax): self
+    public function setDateLimiteInscription(\DateTimeInterface $dateLimiteInscription): self
     {
-        $this->nbInscriptionsMax = $nbInscriptionsMax;
+        $this->dateLimiteInscription = $dateLimiteInscription;
+
+        return $this;
+    }
+
+    public function getMbInscriptionMax(): ?int
+    {
+        return $this->mbInscriptionMax;
+    }
+
+    public function setMbInscriptionMax(int $mbInscriptionMax): self
+    {
+        $this->mbInscriptionMax = $mbInscriptionMax;
 
         return $this;
     }
