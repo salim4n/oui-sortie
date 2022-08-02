@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ville;
-use App\Form\Ville1Type;
+use App\Form\VilleType;
 use App\Repository\VilleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class VilleController extends AbstractController
     public function new(Request $request, VilleRepository $villeRepository): Response
     {
         $ville = new Ville();
-        $form = $this->createForm(Ville1Type::class, $ville);
+        $form = $this->createForm(VilleType::class, $ville);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +51,7 @@ class VilleController extends AbstractController
     #[Route('/{id}/edit', name: 'app_ville_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Ville $ville, VilleRepository $villeRepository): Response
     {
-        $form = $this->createForm(Ville1Type::class, $ville);
+        $form = $this->createForm(VilleType::class, $ville);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
