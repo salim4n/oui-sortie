@@ -3,21 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Ville;
-use App\Form\VilleType;
+use App\Form\Ville1Type;
 use App\Repository\VilleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/ville")
- */
+#[Route('/ville')]
 class VilleController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_ville_index", methods={"GET"})
-     */
+    #[Route('/', name: 'app_ville_index', methods: ['GET'])]
     public function index(VilleRepository $villeRepository): Response
     {
         return $this->render('ville/index.html.twig', [
@@ -25,13 +21,11 @@ class VilleController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="app_ville_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'app_ville_new', methods: ['GET', 'POST'])]
     public function new(Request $request, VilleRepository $villeRepository): Response
     {
         $ville = new Ville();
-        $form = $this->createForm(VilleType::class, $ville);
+        $form = $this->createForm(Ville1Type::class, $ville);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -46,9 +40,7 @@ class VilleController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_ville_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'app_ville_show', methods: ['GET'])]
     public function show(Ville $ville): Response
     {
         return $this->render('ville/show.html.twig', [
@@ -56,12 +48,10 @@ class VilleController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="app_ville_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'app_ville_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Ville $ville, VilleRepository $villeRepository): Response
     {
-        $form = $this->createForm(VilleType::class, $ville);
+        $form = $this->createForm(Ville1Type::class, $ville);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -76,9 +66,7 @@ class VilleController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_ville_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'app_ville_delete', methods: ['POST'])]
     public function delete(Request $request, Ville $ville, VilleRepository $villeRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$ville->getId(), $request->request->get('_token'))) {
