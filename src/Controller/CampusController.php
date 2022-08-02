@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/campus')]
 class CampusController extends AbstractController
 {
+    //truc
     #[Route('/', name: 'app_campus_index', methods: ['GET'])]
     public function index(CampusRepository $campusRepository): Response
     {
