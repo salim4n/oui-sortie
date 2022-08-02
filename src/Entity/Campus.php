@@ -21,14 +21,15 @@ class Campus
     #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Sortie::class)]
     private Collection $siteOrganisateur;
 
-    #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Participant::class)]
-    private Collection $estRattacheA;
+    #[ORM\OneToMany(mappedBy: 'estRattacheA', targetEntity: Participant::class)]
+    private Collection $participants;
 
     public function __construct()
     {
-        $this->siteOrganisateur = new ArrayCollection();
-        $this->estRattacheA = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -80,27 +81,27 @@ class Campus
     /**
      * @return Collection<int, Participant>
      */
-    public function getEstRattacheA(): Collection
+    public function getParticipants(): Collection
     {
-        return $this->estRattacheA;
+        return $this->participants;
     }
 
-    public function addEstRattacheA(Participant $estRattacheA): self
+    public function addParticipant(Participant $participant): self
     {
-        if (!$this->estRattacheA->contains($estRattacheA)) {
-            $this->estRattacheA->add($estRattacheA);
-            $estRattacheA->setCampus($this);
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
+            $participant->setEstRattacheA($this);
         }
 
         return $this;
     }
 
-    public function removeEstRattacheA(Participant $estRattacheA): self
+    public function removeParticipant(Participant $participant): self
     {
-        if ($this->estRattacheA->removeElement($estRattacheA)) {
+        if ($this->participants->removeElement($participant)) {
             // set the owning side to null (unless already changed)
-            if ($estRattacheA->getCampus() === $this) {
-                $estRattacheA->setCampus(null);
+            if ($participant->getEstRattacheA() === $this) {
+                $participant->setEstRattacheA(null);
             }
         }
 
