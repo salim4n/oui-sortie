@@ -42,6 +42,10 @@ class Participant
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
     private Collection $estInscrit;
 
+    #[ORM\ManyToOne(inversedBy: 'estRattacheA')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Campus $campus = null;
+
     public function __construct()
     {
         $this->organisateur = new ArrayCollection();
@@ -187,6 +191,18 @@ class Participant
     public function removeEstInscrit(Sortie $estInscrit): self
     {
         $this->estInscrit->removeElement($estInscrit);
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
 
         return $this;
     }
