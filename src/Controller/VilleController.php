@@ -13,11 +13,26 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/ville')]
 class VilleController extends AbstractController
 {
-    #[Route('/', name: 'app_ville_index', methods: ['GET'])]
-    public function index(VilleRepository $villeRepository): Response
+    #[Route('/', name: 'app_ville_index', methods: ['GET', 'POST'])]
+    public function index(Request $request, VilleRepository $villeRepository): Response
     {
-        return $this->render('ville/index.html.twig', [
+        $ville = new Ville();
+        $form = $this->createForm(VilleType::class, $ville);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $villeRepository->add($ville, true);
+
+            return $this->redirectToRoute('app_ville_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        if ($this->isCsrfTokenValid('delete'.$ville->getId(), $request->request->get('_token'))) {
+            $villeRepository->remove($ville, true);
+        }
+
+        return $this->renderForm('ville/index.html.twig', [
             'villes' => $villeRepository->findAll(),
+            'form' => $form,
         ]);
     }
 
@@ -34,7 +49,7 @@ class VilleController extends AbstractController
             return $this->redirectToRoute('app_ville_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('ville/new.html.twig', [
+        return $this->renderForm('ville/index.html.twig', [
             'ville' => $ville,
             'form' => $form,
         ]);

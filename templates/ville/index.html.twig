@@ -21,8 +21,11 @@
                 <td>{{ ville.nom }}</td>
                 <td>{{ ville.codePostal }}</td>
                 <td>
-                    <a href="{{ path('app_ville_show', {'id': ville.id}) }}">show</a>
-                    <a href="{{ path('app_ville_edit', {'id': ville.id}) }}">edit</a>
+                    <a href="{{ path('app_ville_edit', {'id': ville.id}) }}">Modifier</a>
+                    <form method="post" action="{{ path('app_ville_delete', {'id': ville.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ville.id) }}">
+                        <button class="btn">Delete</button>
+                    </form>
                 </td>
             </tr>
         {% else %}
@@ -30,8 +33,22 @@
                 <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
+        {{ form_start(form) }}
+            <tr>
+                <td>?</td>
+                <td>{{ form_row(form.nom) }}</td>
+                <td>{{ form_row(form.codePostal) }}</td>
+                <td><button type="submit" class="btn">Register</button></td>
+            </tr>
+        {{ form_end(form) }}
+{#        <tr>#}
+{#            {{ include('ville/_form.html.twig') }}#}
+{#            <td>{{ form_label(form.name) }}</td>#}
+{#            <td></td>#}
+{#        </tr>#}
         </tbody>
     </table>
+{#    {{ form_label(form.nom) }}#}
 
-    <a href="{{ path('app_ville_new') }}">Create new</a>
+{#    <a href="{{ path('app_ville_new') }}">Create new</a>#}
 {% endblock %}
