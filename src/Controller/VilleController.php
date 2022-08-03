@@ -26,11 +26,9 @@ class VilleController extends AbstractController
             return $this->redirectToRoute('app_ville_index', [], Response::HTTP_SEE_OTHER);
         }
 
-//        return $this->render('ville/index.html.twig', [
-//            'villes' => $villeRepository->findAll(),
-//            'ville' => $ville,
-//            'form' => $form,
-//        ]);
+        if ($this->isCsrfTokenValid('delete'.$ville->getId(), $request->request->get('_token'))) {
+            $villeRepository->remove($ville, true);
+        }
 
         return $this->renderForm('ville/index.html.twig', [
             'villes' => $villeRepository->findAll(),
