@@ -13,10 +13,6 @@
     "nav body body body"
     "nav body body body"
     "footer footer footer footer";
-
-    max-width: 1000px;
-    margin: auto;
-    padding: 5px;
 }
 
 body {
@@ -24,14 +20,8 @@ body {
     background-attachment: fixed;
     color: whitesmoke;
     font-family: 'Inconsolata', monospace;
-
 }
 
-body > .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
 
 .header { grid-area: header; }
 
