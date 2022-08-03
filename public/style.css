@@ -23,7 +23,10 @@ body {
 }
 
 
-.header { grid-area: header; }
+.header {
+    justify-self: center;
+    grid-area: header;
+}
 
 .footer {
     justify-self: center;
