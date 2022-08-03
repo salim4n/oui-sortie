@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -19,6 +20,10 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+
+    #[Assert\Email(
+        message: 'The email {{ value }} is not a valid email.',
+    )]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
@@ -31,13 +36,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[Assert\Range( notInRangeMessage: "Le nom doit avoir au moins {{min}} et maximum {{max }} caractères.", min: 2, max: 20)]
+    #[Assert\Regex('/[a-zA-Z]*/')]
     #[ORM\Column(length: 20)]
     private ?string $nom = null;
 
+    #[Assert\Range( notInRangeMessage: "Le prénom doit avoir au moins {{min}} et maximum {{max }} caractères.", min: 2, max: 20)]
+    #[Assert\Regex('/[a-zA-Z]*/')]
     #[ORM\Column(length: 20)]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\Regex('/^(((\+33\s)|0)[1-9]\s([0-9][0-9]\s){4})$/')]
     private ?string $telephone = null;
 
     #[ORM\Column]
