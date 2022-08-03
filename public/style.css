@@ -13,6 +13,10 @@
     "nav body body body"
     "nav body body body"
     "footer footer footer footer";
+
+    max-width: 1500px;
+    margin: auto;
+
 }
 
 body {
@@ -22,9 +26,23 @@ body {
     font-family: 'Inconsolata', monospace;
 }
 
+img {
+    max-width:20%;
+}
+
+a:hover {
+    color: #BC956B;
+}
+
 
 .header {
-    justify-self: center;
+    background: linear-gradient(lightslategray, darkslategray);
+    background-attachment: fixed;
+    -webkit-box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
+    box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
+    border-radius: 5px;
+    justify-self: start;
+    align-self: center;
     grid-area: header;
 }
 
