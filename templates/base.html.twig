@@ -2,18 +2,58 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https : //fonts.googleapis.com/css2?family= Inconsolata & display = swap" rel="stylesheet">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
+            <link rel="stylesheet" href="{{ asset('style.css') }}">
         {% endblock %}
-
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+    <div class="container">
+        <div class="header">
+            {% block header %}
+                <title>Welcome!</title>
+            {% endblock %}
+        </div>
+        <div class="nav">
+            {% block nav %}
+                <ul>
+                    <li><a href="{{ path('app_register') }} ">s'enregistrer</a></li>
+                    <li><a href="{{ path('app_login') }} ">se connecter</a></li>
+                    <li><a href="{{ path('app_logout') }} ">se deconnecter</a></li>
+                    <li><a href="{{ path('app_accueil') }} ">page d'accueil</a></li>
+                </ul><ul>
+                    <li><a href="{{ path('app_campus_index') }} ">index des campus</a></li>
+                    <li><a href="{{ path('app_campus_new') }} ">ajouter un campus</a></li>
+            </ul><ul>
+                    <li><a href="{{ path('app_etat_index') }} ">index des etats</a></li>
+                    <li><a href="{{ path('app_etat_new') }} ">ajouter un etat</a></li>
+            </ul><ul>
+                    <li><a href="{{ path('app_lieu_index') }} ">index des lieux</a></li>
+                    <li><a href="{{ path('app_lieu_new') }} ">ajouter un lieux</a></li>
+            </ul><ul>
+                    <li><a href="{{ path('app_sortie_index') }} ">index des sortie</a></li>
+                    <li><a href="{{ path('app_sortie_new') }} ">ajouter une sortie</a></li>
+            </ul><ul>
+                    <li><a href="{{ path('app_ville_index') }} ">index des villes</a></li>
+                    <li><a href="{{ path('app_ville_new') }} ">ajouter une ville</a></li>
+                </ul>
+            {% endblock %}
+        </div>
+        <div class="body">
+            {% block body %}
+                <p>ici s'affichera le body</p>
+            {% endblock %}
+        </div>
+        <div class="footer">
+                <div><strong>&copy;</strong><em>{{ "now"| date("Y") }}Oui Sortie</em></div>
+        </div>
+    </div>
+
     </body>
 </html>
