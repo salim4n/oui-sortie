@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Participant;
 use phpDocumentor\Reflection\Types\ArrayKey;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -16,7 +17,6 @@ class ParticipantType extends AbstractType
     {
         $builder
             ->add('email')
-//            ->add('roles')
             ->add('password')
             ->add('nom')
             ->add('prenom')
@@ -24,7 +24,6 @@ class ParticipantType extends AbstractType
             ->add('actif')
             ->add('pseudo')
             ->add('estInscrit')
-//            ->add('estRattacheA')
         ;
     }
 

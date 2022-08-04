@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
 use App\Entity\Participant;
 use App\Form\ParticipantType;
+use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,12 +24,16 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/new', name: 'app_participant_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ParticipantRepository $participantRepository): Response
+    public function new(Request $request, ParticipantRepository $participantRepository, CampusRepository $campusRepository  ): Response
     {
         $participant = new Participant();
         $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $dataCampus = $request->request->get('campus', 'false');;
+            $campus = $campusRepository->find($dataCampus);
 
             $admin = $request->request->get('is_admin', 'false');
 
@@ -37,13 +43,14 @@ class ParticipantController extends AbstractController
             else{
                 $participant->setRoles((array)"ROLE_USER");
             }
+            $participant->setEstRattacheA($campus);
             $participantRepository->add($participant, true);
-
             return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('participant/new.html.twig', [
             'participant' => $participant,
+            'campuss' => $campusRepository->findAll(),
             'form' => $form,
         ]);
     }
