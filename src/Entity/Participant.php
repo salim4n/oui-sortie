@@ -38,18 +38,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[Assert\Range( notInRangeMessage: "Le nom doit avoir au moins {{min}} et maximum {{max }} caractères.", min: 2, max: 20)]
-    #[Assert\Regex('/[a-zA-Z]*/')]
+   // #[Assert\Range( notInRangeMessage: "Le nom doit avoir au moins {{min}} et maximum {{max }} caractères.", min: 2, max: 20)]
+  //  #[Assert\Regex('/[a-zA-Z]*/')]
     #[ORM\Column(length: 20)]
     private ?string $nom = null;
 
-    #[Assert\Range( notInRangeMessage: "Le prénom doit avoir au moins {{min}} et maximum {{max }} caractères.", min: 2, max: 20)]
-    #[Assert\Regex('/[a-zA-Z]*/')]
+   // #[Assert\Range( notInRangeMessage: "Le prénom doit avoir au moins {{min}} et maximum {{max }} caractères.", min: 2, max: 20)]
+  //  #[Assert\Regex('/[a-zA-Z]*/')]
     #[ORM\Column(length: 20)]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 20)]
-    #[Assert\Regex('/^(((\+33\s)|0)[1-9]\s([0-9][0-9]\s){4})$/')]
+   // #[Assert\Regex('/^(((\+33\s)|0)[1-9]\s([0-9][0-9]\s){4})$/')]
     private ?string $telephone = null;
 
     #[ORM\Column]
