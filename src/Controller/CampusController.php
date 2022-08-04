@@ -14,11 +14,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class CampusController extends AbstractController
 {
     //truc
-    #[Route('/', name: 'app_campus_index', methods: ['GET'])]
-    public function index(CampusRepository $campusRepository): Response
+    #[Route('/', name: 'app_campus_index', methods: ['GET', 'POST'])]
+    public function index(Request $request, CampusRepository $campusRepository): Response
     {
-        return $this->render('campus/index.html.twig', [
+        $campus = new Campus();
+        $form = $this->createForm(CampusType::class, $campus);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $campusRepository->add($campus, true);
+
+            return $this->redirectToRoute('app_campus_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('campus/index.html.twig', [
             'campuses' => $campusRepository->findAll(),
+            'form' => $form,
         ]);
     }
 
