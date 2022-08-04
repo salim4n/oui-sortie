@@ -27,8 +27,16 @@ class ParticipantController extends AbstractController
         $participant = new Participant();
         $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $admin = $request->request->get('is_admin', 'false');
+
+            if ($admin == 'true'){
+                $participant->setRoles((array)"ROLE_ADMIN");
+            }
+            else{
+                $participant->setRoles((array)"ROLE_USER");
+            }
             $participantRepository->add($participant, true);
 
             return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);

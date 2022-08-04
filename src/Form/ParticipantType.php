@@ -3,7 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Participant;
+use phpDocumentor\Reflection\Types\ArrayKey;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,7 +16,7 @@ class ParticipantType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
+//            ->add('roles')
             ->add('password')
             ->add('nom')
             ->add('prenom')
@@ -21,7 +24,7 @@ class ParticipantType extends AbstractType
             ->add('actif')
             ->add('pseudo')
             ->add('estInscrit')
-            ->add('estRattacheA')
+//            ->add('estRattacheA')
         ;
     }
 
