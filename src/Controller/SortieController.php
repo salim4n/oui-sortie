@@ -26,9 +26,10 @@ class SortieController extends AbstractController
     public function new(Request $request, SortieRepository $sortieRepository): Response
     {
 
-        $name =  $this->getUser();
-        //dd($name);
+        $user =  $this->getUser();
         $sortie = new Sortie();
+        $sortie->setOrganisateur($user);
+
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
