@@ -51,9 +51,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $telephone = null;
 
     #[ORM\Column]
-    private ?bool $administrateur = false;
-
-    #[ORM\Column]
     private ?bool $actif = true;
 
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
@@ -64,6 +61,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne(inversedBy: 'participants')]
     private ?Campus $estRattacheA = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $pseudo = null;
 
     public function __construct()
     {
@@ -196,18 +196,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isAdministrateur(): ?bool
-    {
-        return $this->administrateur;
-    }
-
-    public function setAdministrateur(bool $administrateur): self
-    {
-        $this->administrateur = $administrateur;
-
-        return $this;
-    }
-
     public function isActif(): ?bool
     {
         return $this->actif;
@@ -282,6 +270,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEstRattacheA(?Campus $estRattacheA): self
     {
         $this->estRattacheA = $estRattacheA;
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
 
         return $this;
     }
