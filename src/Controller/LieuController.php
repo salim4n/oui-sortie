@@ -13,10 +13,23 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/lieu')]
 class LieuController extends AbstractController
 {
-    #[Route('/', name: 'app_lieu_index', methods: ['GET'])]
-    public function index(LieuRepository $lieuRepository): Response
+    #[Route('/', name: 'app_lieu_index', methods: ['GET', 'POST'])]
+    public function index(Request $request, LieuRepository $lieuRepository): Response
     {
-        return $this->render('lieu/index.html.twig', [
+        $lieu = new Lieu();
+        $form = $this->createForm(LieuType::class, $lieu);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $lieuRepository->add($lieu, true);
+            return $this->redirectToRoute('app_lieu_index', [], Response::HTTP_SEE_OTHER);
+        }
+        if ($this->isCsrfTokenValid('delete'.$lieu->getId(), $request->request->get('_token'))) {
+            $lieuRepository->remove($lieu, true);
+        }
+
+        return $this->renderform('lieu/index.html.twig', [
+            'form' => $form,
             'lieus' => $lieuRepository->findAll(),
         ]);
     }

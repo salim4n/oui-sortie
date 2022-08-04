@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Ville</th>
                 <th>Nom</th>
                 <th>Rue</th>
                 <th>Latitude</th>
@@ -20,13 +21,18 @@
         {% for lieu in lieus %}
             <tr>
                 <td>{{ lieu.id }}</td>
+                <td>{{ lieu.ville.nom}}</td>
                 <td>{{ lieu.nom }}</td>
                 <td>{{ lieu.rue }}</td>
                 <td>{{ lieu.latitude }}</td>
                 <td>{{ lieu.longitude }}</td>
                 <td>
-                    <a href="{{ path('app_lieu_show', {'id': lieu.id}) }}">show</a>
+
                     <a href="{{ path('app_lieu_edit', {'id': lieu.id}) }}">edit</a>
+                    <form method="post" action="{{ path('app_lieu_delete', {'id': lieu.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ lieu.id) }}">
+                        <button class="btn">Delete</button>
+                    </form>
                 </td>
             </tr>
         {% else %}
@@ -34,8 +40,18 @@
                 <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
+        {{form_start(form) }}
+        <tr>
+            <td>?</td>
+            <td>{{ form_row(form.ville) }}</td>
+            <td>{{ form_row(form.nom) }}</td>
+            <td>{{ form_row(form.rue) }}</td>
+            <td>{{ form_row(form.latitude) }}</td>
+            <td>{{ form_row(form.longitude) }}</td>
+            <td><button type="submit" class="btn btn-primary">Submit</button></td>
+        </tr>
+        {{ form_end(form) }}
         </tbody>
     </table>
 
-    <a href="{{ path('app_lieu_new') }}">Create new</a>
 {% endblock %}
