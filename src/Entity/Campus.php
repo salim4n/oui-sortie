@@ -18,7 +18,7 @@ class Campus
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Sortie::class)]
+    #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Sortie::class,cascade: ['persist','remove'])]
     private Collection $siteOrganisateur;
 
     #[ORM\OneToMany(mappedBy: 'estRattacheA', targetEntity: Participant::class,cascade: ['persist','remove'])]
