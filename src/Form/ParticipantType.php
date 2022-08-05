@@ -23,7 +23,6 @@ class ParticipantType extends AbstractType
             ->add('telephone')
             ->add('actif')
             ->add('pseudo')
-            ->add('estInscrit')
         ;
     }
 

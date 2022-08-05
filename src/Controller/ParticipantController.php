@@ -32,9 +32,6 @@ class ParticipantController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $dataCampus = $request->request->get('campus', 'false');;
-            $campus = $campusRepository->find($dataCampus);
-
             $admin = $request->request->get('is_admin', 'false');
 
             if ($admin == 'true'){
@@ -43,6 +40,8 @@ class ParticipantController extends AbstractController
             else{
                 $participant->setRoles((array)"ROLE_USER");
             }
+            $dataCampus = $request->request->get('campus', 'false');;
+            $campus = $campusRepository->find($dataCampus);
             $participant->setEstRattacheA($campus);
             $participantRepository->add($participant, true);
             return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);
