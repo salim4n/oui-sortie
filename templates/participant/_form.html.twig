@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <select name="campus" >
+        {% for campus in campuss %}
+            <option value="{{ campus.id }}">{{ campus.nom }}</option>
+        {%endfor %}
+    </select><a href="{{ path('app_campus_new')}}">show</a><br>
+    <labe>admin</labe>
+    <input type="checkbox" name="is_admin"  value="true" ><br>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

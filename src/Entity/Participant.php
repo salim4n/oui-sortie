@@ -38,18 +38,16 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-   // #[Assert\Range( notInRangeMessage: "Le nom doit avoir au moins {{min}} et maximum {{max }} caractères.", min: 2, max: 20)]
-  //  #[Assert\Regex('/[a-zA-Z]*/')]
-    #[ORM\Column(length: 20)]
+
+    #[ORM\Column(length: 254)]
     private ?string $nom = null;
 
-   // #[Assert\Range( notInRangeMessage: "Le prénom doit avoir au moins {{min}} et maximum {{max }} caractères.", min: 2, max: 20)]
-  //  #[Assert\Regex('/[a-zA-Z]*/')]
-    #[ORM\Column(length: 20)]
+
+    #[ORM\Column(length: 254)]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 20)]
-   // #[Assert\Regex('/^(((\+33\s)|0)[1-9]\s([0-9][0-9]\s){4})$/')]
+    #[Assert\Regex('/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/')]
     private ?string $telephone = null;
 
     #[ORM\Column]
@@ -66,6 +64,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne(inversedBy: 'participants')]
     private ?Campus $estRattacheA = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $pseudo = null;
 
     public function __construct()
     {
@@ -284,6 +285,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEstRattacheA(?Campus $estRattacheA): self
     {
         $this->estRattacheA = $estRattacheA;
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
 
         return $this;
     }
