@@ -5,10 +5,12 @@ namespace App\Entity;
 use App\Repository\VilleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VilleRepository::class)]
+#[UniqueEntity(fields: ['nom'], message: 'Ville deja existante')]
 class Ville
 {
     #[ORM\Id]
@@ -20,7 +22,7 @@ class Ville
     private ?string $nom = null;
 
     #[ORM\Column]
-    #[Assert\Regex('/\d{2}[ ]?\d{3}/')]
+    #[Assert\Regex('/^\d{2}[ ]?\d{3}$/')]
     private ?int $codePostal = null;
 
     #[ORM\OneToMany(mappedBy: 'ville', targetEntity: Lieu::class)]
