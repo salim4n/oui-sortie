@@ -21,7 +21,7 @@ class Campus
     #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Sortie::class)]
     private Collection $siteOrganisateur;
 
-    #[ORM\OneToMany(mappedBy: 'estRattacheA', targetEntity: Participant::class)]
+    #[ORM\OneToMany(mappedBy: 'estRattacheA', targetEntity: Participant::class,cascade: ['persist','remove'])]
     private Collection $participants;
 
     public function __construct()

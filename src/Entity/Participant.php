@@ -59,7 +59,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
     private Collection $estInscrit;
 
-    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class,cascade: ['persist','remove'])]
     private Collection $organisateur;
 
     #[ORM\ManyToOne(inversedBy: 'participants')]

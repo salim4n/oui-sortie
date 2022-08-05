@@ -25,7 +25,7 @@ class Ville
     #[Assert\Regex('/^\d{2}[ ]?\d{3}$/')]
     private ?int $codePostal = null;
 
-    #[ORM\OneToMany(mappedBy: 'ville', targetEntity: Lieu::class)]
+    #[ORM\OneToMany(mappedBy: 'ville', targetEntity: Lieu::class, cascade: ['persist','remove'])]
     private Collection $lieu;
 
     public function __construct()
