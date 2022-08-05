@@ -36,6 +36,12 @@
         {{ form_start(form) }}
             <tr>
                 <td>?</td>
+{#                <td>#}
+{#                    <input type="text" name="nom" id="nom" placeholder="Nom ville">#}
+{#                </td>#}
+{#                <td>#}
+{#                    <input type="number" name="codePostal" id="codePostal" placeholder="Code postal">#}
+{#                </td>#}
                 <td>{{ form_row(form.nom) }}</td>
                 <td>{{ form_row(form.codePostal) }}</td>
                 <td><button type="submit" class="btn">Register</button></td>
