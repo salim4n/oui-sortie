@@ -42,5 +42,12 @@
 
     <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
 
+    <form method="post" action="{{ path('app_sortie_inscription', {'id': sortie.id}) }}"
+          onsubmit="return confirm('Etes vous sure de vouloir vous inscrire?');">
+        <button class="btn">s'inscrire</button>
+    </form>
+
+
+
     {{ include('sortie/_delete_form.html.twig') }}
 {% endblock %}

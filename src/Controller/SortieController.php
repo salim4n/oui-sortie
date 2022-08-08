@@ -2,12 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManager;
+use http\Message;
+use mysql_xdevapi\Exception;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -62,6 +70,7 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $sortieRepository->add($sortie, true);
 
+
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -79,5 +88,20 @@ class SortieController extends AbstractController
         }
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/inscription', name: 'app_sortie_inscription', methods: ['GET','POST','PATCH','PUT'])]
+    public function inscription( Sortie $sortie, EntityManager $entityManager): Response
+    {
+
+            $participant = $this->getUser();
+            $sortie->addParticipant($this->$participant);
+            $entityManager->persist();
+            $entityManager->flush();
+            $this->addFlash('success','vous etes inscrit a cette sortie');
+
+            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+
+
     }
 }
