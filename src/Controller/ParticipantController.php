@@ -6,6 +6,7 @@ use App\Entity\Campus;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\ParticipantType;
+use App\Form\ParticipantUserType;
 use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +22,39 @@ class ParticipantController extends AbstractController
     {
         return $this->render('participant/index.html.twig', [
             'participants' => $participantRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/edit', name: 'app_participant_editme', methods: ['GET', 'POST'])]
+    public function editme(Request $request ,ParticipantRepository $participantRepository, CampusRepository $campusRepository): Response
+    {
+
+         $participant =  $this->getUser();
+
+
+//        if ($participant->getRoles() == 'ROLE_ADMIN'){
+//            $form = $this->createForm(ParticipantType::class, $participant);
+//        }else{
+//            $form = $this->createForm(ParticipantUserType::class, $participant);
+//        }
+        $form = $this->createForm(ParticipantType::class, $participant);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($participant->getRoles() != 'ROLE_ADMIN'){
+                $user = $participantRepository->find($participant);
+                $participant->setActif($user->isActif());
+            }
+
+            $participantRepository->add($participant, true);
+
+            return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('participant/edit.html.twig', [
+            'participant' => $participant,
+            'form' => $form,
+            'campuss' => $campusRepository->findAll(),
         ]);
     }
 
@@ -63,12 +97,14 @@ class ParticipantController extends AbstractController
         ]);
     }
 
+
+
     #[Route('/{id}/edit', name: 'app_participant_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Participant $participant, ParticipantRepository $participantRepository, CampusRepository $campusRepository): Response
     {
         $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
-
+        dump($participant);
         if ($form->isSubmitted() && $form->isValid()) {
             $participantRepository->add($participant, true);
 
