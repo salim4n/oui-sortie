@@ -8,7 +8,6 @@ use App\Form\SortieType;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use http\Message;
 use mysql_xdevapi\Exception;
 use phpDocumentor\Reflection\Types\This;
@@ -91,15 +90,13 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/inscription/{id}', name: 'app_sortie_inscription')]
-    public function inscription( Sortie $sortie, EntityManagerInterface $entityManager): Response
+    #[Route('/inscription', name: 'app_sortie_inscription', methods: ['GET','POST','PATCH','PUT'])]
+    public function inscription( Sortie $sortie, EntityManager $entityManager): Response
     {
-            $participantSortie = new Participant();
+
             $participant = $this->getUser();
-            $participantSortie = $participant;
-            $sortie->addParticipant($participantSortie);
-            $sortieRepository = $sortie;
-            $entityManager->persist($sortieRepository);
+            $sortie->addParticipant($this->$participant);
+            $entityManager->persist();
             $entityManager->flush();
             $this->addFlash('success','vous etes inscrit a cette sortie');
 

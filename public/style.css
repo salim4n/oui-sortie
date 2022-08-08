@@ -60,15 +60,4 @@ a {
     color: whitesmoke;
 }
 
-.flash-success {
-    background-color: purple;
-    background-attachment: fixed;
-    -webkit-box-shadow: 1px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
-    box-shadow: 1px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
-    border-radius: 5px;
-    justify-self: start;
-    align-self: center;
-
-}
-
 
