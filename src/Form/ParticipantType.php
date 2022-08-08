@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Campus;
+
 use App\Entity\Participant;
 use phpDocumentor\Reflection\Types\ArrayKey;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
