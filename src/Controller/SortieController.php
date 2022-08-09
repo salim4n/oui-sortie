@@ -92,19 +92,64 @@ class SortieController extends AbstractController
     }
 
     #[Route('/inscription/{id}', name: 'app_sortie_inscription')]
-    public function inscription( Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function inscription( Int $id, Sortie $sortie, EntityManagerInterface $entityManager,SortieRepository $sortieRepository, ParticipantRepository $participantRepository): Response
     {
-            $participantSortie = new Participant();
-            $participant = $this->getUser();
-            $participantSortie = $participant;
-            $sortie->addParticipant($participantSortie);
-            $sortieRepository = $sortie;
-            $entityManager->persist($sortieRepository);
-            $entityManager->flush();
-//            $this->addFlash('success','vous etes inscrit a cette sortie');
+
+            $user = $participantRepository->find($this->getUser());
+
+        $sortie = $sortieRepository->find($id);
+            if (count($sortie->getParticipants()) < $sortie->getMbInscriptionMax()) {
+                if ($sortie->getEtat()->getId() === 2 || $sortie->getEtat()->getId() === 1) {
+                    $sortie->addParticipant($user);
+                    $entityManager->flush();
+                    //$this->addFlash('success', 'Votre inscription a bien été enregistrée');
+                }
+                else {
+
+                    //$this->addFlash('error', 'Les inscriptions ne sont pas accessible pour cette sortie. Vous ne pouvez pas vous inscrire');
+                }
+            }
+            else {
+
+                //$this->addFlash('error', 'La sortie est complète. Vous ne pouvez pas vous inscrire');
+            }
+
+
+            /* if($sortie->getMbInscriptionMax()=== $sortie->getParticipants()->count()) {
+                 // ajouter message flash ("vous ne pouvez pas vous inscrire a cette sortie elle est pleine")
+             } else {
+                 $participantSortie = new Participant();
+                 $participant = $this->getUser();
+                 $participantSortie = $participant;
+                 $sortie->addParticipant($participantSortie);
+                 $sortieRepository = $sortie;
+
+                 $entityManager->persist($sortieRepository);
+                 $entityManager->flush();
+     //            $this->addFlash('success','vous etes inscrit a cette sortie');
+             }*/
 
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
 
 
     }
+
+    #[Route('/desinscription/{id}', name: 'app_sortie_desinscription')]
+        public function desincription(Int $id, Sortie $sortie, EntityManagerInterface $entityManager,SortieRepository $sortieRepository, ParticipantRepository $participantRepository)
+    {
+        $user = $participantRepository->find($this->getUser());
+        $sortie = $sortieRepository->find($id);
+        if ($sortie->getEtat()->getId() === 1 || $sortie->getEtat()->getId() === 2) {
+            $sortie->removeParticipant($user);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            //$this->addFlash('success', 'Vous n'etes plus sur cette sortie');
+        }
+        else {
+            //$this->addFlash('error', 'Cette sortie n'est plus active');
+        }
+
+        return $this->redirectToRoute('app_sortie_show', ['id' => $id]);
+    }
+
 }

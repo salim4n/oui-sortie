@@ -47,6 +47,11 @@
         <button class="btn">s'inscrire</button>
     </form>
 
+    <form method="post" action="{{ path('app_sortie_desinscription', {'id': sortie.id}) }}"
+          onsubmit="return confirm('Etes vous sure de vouloir vous desinscrire?');">
+        <button class="btn">se desinscrire</button>
+    </form>
+
 
 
     {{ include('sortie/_delete_form.html.twig') }}
