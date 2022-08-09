@@ -22,6 +22,18 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 #[Route('/sortie')]
 class SortieController extends AbstractController
 {
+    #[Route('/inscription', name: 'app_sortie_inscription', methods: ['GET','POST','PATCH','PUT'])]
+    public function inscription( Sortie $sortie, EntityManager $entityManager): Response
+    {
+
+        $participant = $this->getUser();
+        $sortie->addParticipant($this->$participant);
+        $entityManager->persist();
+        $entityManager->flush();
+//            $this->addFlash('success','vous etes inscrit a cette sortie');
+
+        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+    }
     #[Route('/', name: 'app_sortie_index', methods: ['GET'])]
     public function index(SortieRepository $sortieRepository): Response
     {
@@ -90,18 +102,5 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/inscription', name: 'app_sortie_inscription', methods: ['GET','POST','PATCH','PUT'])]
-    public function inscription( Sortie $sortie, EntityManager $entityManager): Response
-    {
 
-            $participant = $this->getUser();
-            $sortie->addParticipant($this->$participant);
-            $entityManager->persist();
-            $entityManager->flush();
-//            $this->addFlash('success','vous etes inscrit a cette sortie');
-
-            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
-
-
-    }
 }
