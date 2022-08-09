@@ -98,7 +98,7 @@ class SortieController extends AbstractController
             $sortie->addParticipant($this->$participant);
             $entityManager->persist();
             $entityManager->flush();
-            $this->addFlash('success','vous etes inscrit a cette sortie');
+//            $this->addFlash('success','vous etes inscrit a cette sortie');
 
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
 

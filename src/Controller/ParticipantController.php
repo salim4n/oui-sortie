@@ -6,7 +6,6 @@ use App\Entity\Campus;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\ParticipantType;
-use App\Form\ParticipantUserType;
 use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,12 +30,6 @@ class ParticipantController extends AbstractController
 
          $participant =  $this->getUser();
 
-
-//        if ($participant->getRoles() == 'ROLE_ADMIN'){
-//            $form = $this->createForm(ParticipantType::class, $participant);
-//        }else{
-//            $form = $this->createForm(ParticipantUserType::class, $participant);
-//        }
         $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
 
