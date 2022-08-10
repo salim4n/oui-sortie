@@ -4,7 +4,7 @@
     grid-auto-rows: 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 0.6fr 1fr 2fr 0.4fr;
-    gap: 0px 0px;
+    gap: 10px 10px;
     justify-content: stretch;
     align-content: stretch;
     justify-items: stretch;
@@ -83,6 +83,15 @@ a {
 .date {
     color: firebrick;
 }
+
+td {
+    color: whitesmoke;
+}
+
+th {
+    color: goldenrod;
+}
+
 
 
 
