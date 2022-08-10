@@ -3,7 +3,7 @@
 {% block title %}Sortie index{% endblock %}
 
 {% block body %}
-    {% if app.user == true %}
+
     <h1>Sortie index</h1>
 
     <table class="table">
@@ -30,8 +30,11 @@
                 <td>{{ sortie.infosSortie }}</td>
                 <td>{{ sortie.participants.count }}</td>
                 <td>
+                    {% if app.user %}
+
 
                         <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">voir</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -42,11 +45,9 @@
         </tbody>
     </table>
 
+
+    {% if app.user %}
         <a href="{{ path('app_sortie_new') }}">Organiser une nouvelle sortie</a>
-    {% endif %}
-    {% if app.user == false %}
-        <div class="noUser">
-        </div>
     {% endif %}
 
 {% endblock %}
