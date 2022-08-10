@@ -11,6 +11,7 @@ use App\Repository\ParticipantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/participant')]
@@ -25,7 +26,7 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/edit', name: 'app_participant_editme', methods: ['GET', 'POST'])]
-    public function editme(Request $request ,ParticipantRepository $participantRepository, CampusRepository $campusRepository): Response
+    public function editme(Request $request, UserPasswordHasherInterface $userPasswordHasher ,ParticipantRepository $participantRepository, CampusRepository $campusRepository): Response
     {
 
          $participant =  $this->getUser();
@@ -38,6 +39,12 @@ class ParticipantController extends AbstractController
                 $user = $participantRepository->find($participant);
                 $participant->setActif($user->isActif());
             }
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
 
             $participantRepository->add($participant, true);
 
@@ -52,7 +59,7 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/new', name: 'app_participant_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ParticipantRepository $participantRepository, CampusRepository $campusRepository  ): Response
+    public function new(Request $request, UserPasswordHasherInterface $userPasswordHasher, ParticipantRepository $participantRepository, CampusRepository $campusRepository  ): Response
     {
         $participant = new Participant();
         $form = $this->createForm(ParticipantType::class, $participant);
@@ -68,6 +75,12 @@ class ParticipantController extends AbstractController
             else{
                 $participant->setRoles((array)"ROLE_USER");
             }
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
             $dataCampus = $request->request->get('campus', 'false');;
             $campus = $campusRepository->find($dataCampus);
             $participant->setEstRattacheA($campus);
