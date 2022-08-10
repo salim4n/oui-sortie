@@ -1,48 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sortie{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
-    <h1>Sortie</h1>
+    <h1>{{ sortie.nom }}</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Nom</th>
-                <td>{{ sortie.nom }}</td>
-            </tr>
-            <tr>
                 <th>pseudo organisateur</th>
-                <td>{{ sortie.organisateur.pseudo }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ sortie.dateHeurDebut ? sortie.dateHeurDebut|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Duree</th>
-                <td>{{ sortie.duree ? sortie.duree.format('%y year(s), %m month(s), %d day(s)') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Date limite d'inscription</th>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Nb participants max</th>
-                <td>{{ sortie.mbInscriptionMax }}</td>
-            </tr>
-            <tr>
-                <th>Nb participants actuel(s)</th>
-                <td>{{ sortie.participants.count }}</td>
+                <td>
+                  {{ sortie.organisateur.pseudo }}</td>
             </tr>
             <tr>
                 <th>Information</th>
-                <td>{{ sortie.infosSortie }}</td>
+                <td> {{ sortie.infosSortie }}</td>
             </tr>
-         <tr>
-                <th>Etat</th>
-                <td>{{ sortie.etat.libelle }}</td>
-            </tr>
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+        <tr>participants</tr>
+        </thead>
+        <tbody>
+        <th></th>
+        {% for participant in sortie.participants %}
+           <tr>
+               <td> Pseudo :
+                   <a href="{{ path('app_participant_show',{'id': participant.id}) }}">{{ participant.pseudo }}</a>
+               </td>
+           </tr>
+        {% endfor %}
         </tbody>
     </table>
 

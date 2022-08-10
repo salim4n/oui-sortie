@@ -1,23 +1,21 @@
-.container {  display: grid;
+.container {
+    display: grid;
+    grid-auto-flow: column dense;
+    grid-auto-rows: 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 0.6fr 1fr 2fr 0.4fr;
-    grid-auto-rows: 1fr;
     gap: 0px 0px;
-    grid-auto-flow: column dense;
     justify-content: stretch;
     align-content: stretch;
     justify-items: stretch;
     align-items: stretch;
-    grid-template-areas:
-    "header header header header"
-    "nav body body body"
-    "nav body body body"
-    "footer footer footer footer";
 
     max-width: 1500px;
     margin: auto;
-
 }
+
+
+
 
 body {
     background: linear-gradient(darkslateblue, darkslategray);
@@ -43,22 +41,28 @@ a:hover {
     border-radius: 5px;
     justify-self: start;
     align-self: center;
-    grid-area: header;
+    grid-area: 1 / 1 / 2 / 5;
+}
+
+.user {
+    justify-self: center;
+    align-self: center;
+    grid-area: 1 / 4 / 2 / 5;
 }
 
 .footer {
     justify-self: center;
     align-self: end;
-    grid-area: footer;
+    grid-area: 4 / 1 / 5 / 5;
 }
 
 .nav {
-    grid-area: nav;
+    grid-area: 2 / 1 / 4 / 2;
     align-self: flex-start;
 
 }
 
-.body { grid-area: body; }
+.body {  grid-area: 2 / 2 / 4 / 5; }
 
 a {
     color: whitesmoke;
@@ -70,6 +74,14 @@ a {
 
 .flash-error {
     background-color: darkred;
+}
+
+.pseudo{
+    color: purple;
+}
+
+.date {
+    color: firebrick;
 }
 
 

@@ -20,6 +20,22 @@
     <div class="header">
         <img  alt="logo" src="{{ asset('img/logo/logo-ouisortie.png') }}">
     </div>
+    <div class="user">
+        {% block user %}
+                {% if app.user %}
+                    <h2 class="pseudo">
+                        <strong>
+                        {{ app.user.pseudo  }}
+                        </strong>
+                    </h2>
+                {% endif %}
+            <h3 class="date">
+                <em>
+                    {{ "now"| date('d-m-Y') }}
+                </em>
+            </h3>
+        {% endblock %}
+    </div>
     <div class="nav">
         {% block nav %}
             <ul>
