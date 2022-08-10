@@ -23,11 +23,14 @@
     <div class="nav">
         {% block nav %}
             <ul>
+                {%if app.user and is_granted('ROLE_ADMIN') %}
+                    <li><a href="{{ path('app_register') }} ">ajouter un admin</a></li> {# a passer en admin only#}
+                {% endif %}
                 {% if  app.user  %}
                 <li><a href="{{ path('app_logout') }} ">se deconnecter</a></li>
                 <li><a href="{{ path('app_participant_editme') }}">Éditer mon profil</a></li>
                 {% else %}
-                <li><a href="{{ path('app_register') }} ">s'enregistrer</a></li> {# a passer en admin only#}
+
                 <li><a href="{{ path('app_login') }} ">se connecter</a></li>
                 {% endif %}
                 <li><a href="{{ path('app_accueil') }} ">page d'accueil</a></li>
