@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManager;
@@ -40,6 +42,7 @@ class SortieController extends AbstractController
         $user =  $this->getUser();
         $sortie = new Sortie();
         $sortie->setOrganisateur($user);
+        $sortie->addParticipant($user);
 
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
@@ -57,10 +60,12 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sortie_show', methods: ['GET'])]
-    public function show(Sortie $sortie): Response
+    public function show(Sortie $sortie, Participant $participants  ): Response
     {
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
+            'participants' => $participants
+
         ]);
     }
 
@@ -93,17 +98,24 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/annuler/{id}', name: 'app_sortie_annuler')]
-    public function annulerSortie(Int $id, Sortie $sortie, EntityManagerInterface $entityManager, SortieRepository $sortieRepository)
+    /*#[Route('/annuler/{id}', name: 'app_sortie_annuler')]
+    public function annulerSortie(Int $id, Sortie $sortie, EntityManagerInterface $entityManager,
+                                  SortieRepository $sortieRepository, Etat $etat)
     {
-        $user = $this->getUser();
-        if($user === $sortie->getOrganisateur()){
-            $sortie->setEtat(6);
-            //$this->addFlash('success', vous avez annule cette sortie avec success !');
+
+        if($sortie->getOrganisateur() === $this->getUser()){
+            $sortie->setEtat($etat->setId(6));
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+           // $this->addFlash('success','votre sortie a bien ete annulee');
         } else {
-            //$this->addFlash('error', 'Vous ne pouvez pas annule cette sortie, vous n'etes pas l'organisateur, cependant vous pouvez vous desinscrire si vous le souhaiter.');
+            // $this->addFlash('error','un probleme est survenue lors de l'annulation de cette sortie');
         }
-    }
+
+        return $this->redirectToRoute('app_sortie_index', [
+            'etat'=> $sortie->getEtat()
+        ], Response::HTTP_SEE_OTHER);
+    }*/
 
     #[Route('/inscription/{id}', name: 'app_sortie_inscription')]
     public function inscription( Int $id, Sortie $sortie, EntityManagerInterface $entityManager,SortieRepository $sortieRepository, ParticipantRepository $participantRepository): Response
@@ -115,6 +127,7 @@ class SortieController extends AbstractController
             if (count($sortie->getParticipants()) < $sortie->getMbInscriptionMax()) {
                 if ($sortie->getEtat()->getId() === 2 || $sortie->getEtat()->getId() === 1) {
                     $sortie->addParticipant($user);
+                    $entityManager->persist($sortie);
                     $entityManager->flush();
                     //$this->addFlash('success', 'Votre inscription a bien été enregistrée');
                 }

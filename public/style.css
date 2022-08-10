@@ -52,7 +52,11 @@ a:hover {
     grid-area: footer;
 }
 
-.nav { grid-area: nav;}
+.nav {
+    grid-area: nav;
+    align-self: flex-start;
+
+}
 
 .body { grid-area: body; }
 
@@ -67,6 +71,7 @@ a {
 .flash-error {
     background-color: darkred;
 }
+
 
 
 

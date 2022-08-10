@@ -3,39 +3,35 @@
 {% block title %}Sortie index{% endblock %}
 
 {% block body %}
+    {% if app.user == true %}
     <h1>Sortie index</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
-                <th>DateHeurDebut</th>
+                <th>Date</th>
                 <th>Duree</th>
-                <th>DateLimiteInscription</th>
-                <th>MbInscriptionMax</th>
-                <th>InfosSortie</th>
-                <th>actions</th>
+                <th>Date limite d'inscription</th>
+                <th>Nb inscrits max</th>
+                <th>Informations</th>
+                <th>nombre d'inscrit(s)</th>
+                <th>action</th>
             </tr>
         </thead>
         <tbody>
         {% for sortie in sorties %}
             <tr>
-                <td>{{ sortie.id }}</td>
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.dateHeurDebut ? sortie.dateHeurDebut|date('Y-m-d') : '' }}</td>
                 <td>{{ sortie.duree ? sortie.duree.format('%y year(s), %m month(s), %d day(s)') : '' }}</td>
                 <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d') : '' }}</td>
                 <td>{{ sortie.mbInscriptionMax }}</td>
                 <td>{{ sortie.infosSortie }}</td>
+                <td>{{ sortie.participants.count }}</td>
                 <td>
-                    {% if app.user == true %}
-                        <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">voir</a>
-                    {% endif %}
-                        {% if app.user == sortie.organisateur %}
-                            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">editer</a>
-                    {% endif %}
 
+                        <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">voir</a>
                 </td>
             </tr>
         {% else %}
@@ -45,8 +41,12 @@
         {% endfor %}
         </tbody>
     </table>
-    {% if app.user == true %}
-        <a href="{{ path('app_sortie_new') }}">Organiser une nouvelle sortie/a>
+
+        <a href="{{ path('app_sortie_new') }}">Organiser une nouvelle sortie</a>
+    {% endif %}
+    {% if app.user == false %}
+        <div class="noUser">
+        </div>
     {% endif %}
 
 {% endblock %}

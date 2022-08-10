@@ -8,15 +8,15 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ sortie.id }}</td>
-            </tr>
-            <tr>
                 <th>Nom</th>
                 <td>{{ sortie.nom }}</td>
             </tr>
             <tr>
-                <th>DateHeurDebut</th>
+                <th>pseudo organisateur</th>
+                <td>{{ sortie.organisateur.pseudo }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
                 <td>{{ sortie.dateHeurDebut ? sortie.dateHeurDebut|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
@@ -24,45 +24,55 @@
                 <td>{{ sortie.duree ? sortie.duree.format('%y year(s), %m month(s), %d day(s)') : '' }}</td>
             </tr>
             <tr>
-                <th>DateLimiteInscription</th>
+                <th>Date limite d'inscription</th>
                 <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>MbInscriptionMax</th>
+                <th>Nb participants max</th>
                 <td>{{ sortie.mbInscriptionMax }}</td>
             </tr>
             <tr>
-                <th>InfosSortie</th>
+                <th>Nb participants actuel(s)</th>
+                <td>{{ sortie.participants.count }}</td>
+            </tr>
+            <tr>
+                <th>Information</th>
                 <td>{{ sortie.infosSortie }}</td>
             </tr>
+         <tr>
+                <th>Etat</th>
+                <td>{{ sortie.etat.libelle }}</td>
+            </tr>
+
+
         </tbody>
     </table>
 
-    <a href="{{ path('app_sortie_index') }}">back to list</a>
+   {# <a href="{{ path('app_sortie_index') }}">back to list</a>#}
 
 
 
-{% if app.user != sortie.participants or app.user != sortie.organisateur %}
+{% if app.user != sortie.participants and app.user != sortie.organisateur %}
     <form method="post" action="{{ path('app_sortie_inscription', {'id': sortie.id}) }}"
           onsubmit="return confirm('Etes vous sure de vouloir vous inscrire?');">
         <button class="btn">s'inscrire</button>
     </form>
     {% endif %}
 
-    {% if app.user == sortie.participants %}
+    {% if app.user == sortie.participants or is_granted('ROLE_ADMIN') %}
     <form method="post" action="{{ path('app_sortie_desinscription', {'id': sortie.id}) }}"
           onsubmit="return confirm('Etes vous sure de vouloir vous desinscrire?');">
         <button class="btn">se desinscrire</button>
     </form>
     {% endif  %}
 
-{% if app.user == sortie.organisateur %}
+{% if app.user == sortie.organisateur or is_granted('ROLE_ADMIN') %}
     <form method="post" action="{{ path('app_sortie_annuler', {'id': sortie.id}) }}"
           onsubmit="return confirm('Etes vous sure de vouloir annuler cette sortie ?');">
         <button class="btn  ">annuler cette sortie</button>
     </form>
-    <div class="edit-sortie">
-        <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+    <div class="edit">
+        <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">modifier cette sortie</a>
     </div>
     {% endif %}
 
