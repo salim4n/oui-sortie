@@ -91,6 +91,18 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/annuler/{id}', name: 'app_sortie_annuler')]
+    public function annulerSortie(Int $id, Sortie $sortie, EntityManagerInterface $entityManager, SortieRepository $sortieRepository)
+    {
+        $user = $this->getUser();
+        if($user === $sortie->getOrganisateur()){
+            $sortie->setEtat(6);
+            //$this->addFlash('success', vous avez annule cette sortie avec success !');
+        } else {
+            //$this->addFlash('error', 'Vous ne pouvez pas annule cette sortie, vous n'etes pas l'organisateur, cependant vous pouvez vous desinscrire si vous le souhaiter.');
+        }
+    }
+
     #[Route('/inscription/{id}', name: 'app_sortie_inscription')]
     public function inscription( Int $id, Sortie $sortie, EntityManagerInterface $entityManager,SortieRepository $sortieRepository, ParticipantRepository $participantRepository): Response
     {
@@ -114,21 +126,6 @@ class SortieController extends AbstractController
                 //$this->addFlash('error', 'La sortie est complète. Vous ne pouvez pas vous inscrire');
             }
 
-
-            /* if($sortie->getMbInscriptionMax()=== $sortie->getParticipants()->count()) {
-                 // ajouter message flash ("vous ne pouvez pas vous inscrire a cette sortie elle est pleine")
-             } else {
-                 $participantSortie = new Participant();
-                 $participant = $this->getUser();
-                 $participantSortie = $participant;
-                 $sortie->addParticipant($participantSortie);
-                 $sortieRepository = $sortie;
-
-                 $entityManager->persist($sortieRepository);
-                 $entityManager->flush();
-     //            $this->addFlash('success','vous etes inscrit a cette sortie');
-             }*/
-
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
 
 
@@ -149,7 +146,12 @@ class SortieController extends AbstractController
             //$this->addFlash('error', 'Cette sortie n'est plus active');
         }
 
-        return $this->redirectToRoute('app_sortie_show', ['id' => $id]);
+        return $this->redirectToRoute('app_sortie_show', [
+            'id' => $id,
+            'user'=> $user,
+            'sortie'=> $sortie
+
+        ]);
     }
 
 }
