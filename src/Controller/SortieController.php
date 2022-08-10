@@ -24,10 +24,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET'])]
-    public function index(SortieRepository $sortieRepository): Response
+    public function index(SortieRepository $sortieRepository,ParticipantRepository $participant): Response
     {
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
+            'participantRepo'=> $participant,
+            'sortieRepo'=> $sortieRepository,
         ]);
     }
 

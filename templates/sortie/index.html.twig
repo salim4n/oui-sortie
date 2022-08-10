@@ -29,17 +29,24 @@
                 <td>{{ sortie.mbInscriptionMax }}</td>
                 <td>{{ sortie.infosSortie }}</td>
                 <td>
-                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">show</a>
-                    <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+                    {% if app.user == true %}
+                        <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">voir</a>
+                    {% endif %}
+                        {% if app.user == sortie.organisateur %}
+                            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">editer</a>
+                    {% endif %}
+
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">aucune sortie trouvee</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    {% if app.user == true %}
+        <a href="{{ path('app_sortie_new') }}">Organiser une nouvelle sortie/a>
+    {% endif %}
 
-    <a href="{{ path('app_sortie_new') }}">Create new</a>
 {% endblock %}
