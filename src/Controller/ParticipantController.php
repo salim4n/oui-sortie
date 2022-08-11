@@ -105,7 +105,7 @@ class ParticipantController extends AbstractController
 
 
 
-    #[Route('/{id}/edit', name: 'app_participant_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/user/{id}', name: 'app_participant_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Participant $participant, ParticipantRepository $participantRepository, CampusRepository $campusRepository): Response
     {
         $form = $this->createForm(ParticipantType::class, $participant);
