@@ -15,10 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-#[Route('/sortie')]
+
 class SortieController extends AbstractController
 {
-    #[Route('/', name: 'app_sortie_index', methods: ['GET'])]
+    #[Route('/', name: 'app_accueil', methods: ['GET'])]
     public function index(SortieRepository $sortieRepository,ParticipantRepository $participant): Response
     {
         return $this->render('sortie/index.html.twig', [
@@ -28,7 +28,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
+    #[Route('/sortie/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, SortieRepository $sortieRepository): Response
     {
 
@@ -52,7 +52,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_sortie_show', methods: ['GET'])]
+    #[Route('/sortie/{id}', name: 'app_sortie_show', methods: ['GET'])]
     public function show(Sortie $sortie, Participant $participants  ): Response
     {
         return $this->render('sortie/show.html.twig', [
@@ -62,7 +62,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
+    #[Route('/sortie/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Sortie $sortie, SortieRepository $sortieRepository): Response
     {
         $form = $this->createForm(SortieType::class, $sortie);
@@ -81,7 +81,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
+    #[Route('/sortie/{id}', name: 'app_sortie_delete', methods: ['POST'])]
     public function delete(Request $request, Sortie $sortie, SortieRepository $sortieRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->request->get('_token'))) {
@@ -91,7 +91,7 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    /*#[Route('/annuler/{id}', name: 'app_sortie_annuler')]
+    /*#[Route('/sortie/annuler/{id}', name: 'app_sortie_annuler')]
     public function annulerSortie(Int $id, Sortie $sortie, EntityManagerInterface $entityManager,
                                   SortieRepository $sortieRepository, Etat $etat)
     {
@@ -110,7 +110,7 @@ class SortieController extends AbstractController
         ], Response::HTTP_SEE_OTHER);
     }*/
 
-    #[Route('/inscription/{id}', name: 'app_sortie_inscription')]
+    #[Route('/sortie/inscription/{id}', name: 'app_sortie_inscription')]
     public function inscription( Int $id, Sortie $sortie, EntityManagerInterface $entityManager,SortieRepository $sortieRepository, ParticipantRepository $participantRepository): Response
     {
 
@@ -139,7 +139,7 @@ class SortieController extends AbstractController
 
     }
 
-    #[Route('/desinscription/{id}', name: 'app_sortie_desinscription')]
+    #[Route('/sortie/desinscription/{id}', name: 'app_sortie_desinscription')]
         public function desincription(Int $id, Sortie $sortie, EntityManagerInterface $entityManager,SortieRepository $sortieRepository, ParticipantRepository $participantRepository)
     {
         $user = $participantRepository->find($this->getUser());
