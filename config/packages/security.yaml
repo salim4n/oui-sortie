@@ -38,7 +38,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/participant/new, roles: ROLE_ADMIN }
-        - { path: ^/participant/{id}/edit, roles: ROLE_ADMIN }
+        #- { path: ^/participant/{id}/edit, roles: ROLE_ADMIN }
         -  { path: ^/sortie/new, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }
 
