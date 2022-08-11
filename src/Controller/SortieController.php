@@ -43,7 +43,7 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $sortieRepository->add($sortie, true);
 
-            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('sortie/new.html.twig', [
@@ -72,7 +72,7 @@ class SortieController extends AbstractController
             $sortieRepository->add($sortie, true);
 
 
-            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('sortie/edit.html.twig', [
@@ -88,7 +88,7 @@ class SortieController extends AbstractController
             $sortieRepository->remove($sortie, true);
         }
 
-        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
     }
 
     /*#[Route('/sortie/annuler/{id}', name: 'app_sortie_annuler')]
@@ -105,7 +105,7 @@ class SortieController extends AbstractController
             // $this->addFlash('error','un probleme est survenue lors de l'annulation de cette sortie');
         }
 
-        return $this->redirectToRoute('app_sortie_index', [
+        return $this->redirectToRoute('app_accueil', [
             'etat'=> $sortie->getEtat()
         ], Response::HTTP_SEE_OTHER);
     }*/
@@ -134,7 +134,7 @@ class SortieController extends AbstractController
                 $this->addFlash('error', 'La sortie est complète. Vous ne pouvez pas vous inscrire');
             }
 
-            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
 
 
     }
