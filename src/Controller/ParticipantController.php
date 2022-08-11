@@ -75,9 +75,9 @@ class ParticipantController extends AbstractController
             else{
                 $participant->setRoles((array)"ROLE_USER");
             }
-            $user->setPassword(
+            $participant->setPassword(
                 $userPasswordHasher->hashPassword(
-                    $user,
+                    $participant,
                     $form->get('password')->getData()
                 )
             );

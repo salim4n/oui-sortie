@@ -34,7 +34,9 @@
                 <td>{{ participant.pseudo }}</td>
                 <td>
                     <a href="{{ path('app_participant_show', {'id': participant.id}) }}">show</a>
-                    <a href="{{ path('app_participant_edit', {'id': participant.id}) }}">edit</a>
+                    {% if app.user and is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_participant_edit', {'id': participant.id}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
