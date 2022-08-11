@@ -122,16 +122,16 @@ class SortieController extends AbstractController
                     $sortie->addParticipant($user);
                     $entityManager->persist($sortie);
                     $entityManager->flush();
-                    //$this->addFlash('success', 'Votre inscription a bien été enregistrée');
+                    $this->addFlash('success', 'Votre inscription a bien été enregistrée');
                 }
                 else {
 
-                    //$this->addFlash('error', 'Les inscriptions ne sont pas accessible pour cette sortie. Vous ne pouvez pas vous inscrire');
+                    $this->addFlash('error', 'Les inscriptions ne sont pas accessible pour cette sortie. Vous ne pouvez pas vous inscrire');
                 }
             }
             else {
 
-                //$this->addFlash('error', 'La sortie est complète. Vous ne pouvez pas vous inscrire');
+                $this->addFlash('error', 'La sortie est complète. Vous ne pouvez pas vous inscrire');
             }
 
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
@@ -148,10 +148,10 @@ class SortieController extends AbstractController
             $sortie->removeParticipant($user);
             $entityManager->persist($sortie);
             $entityManager->flush();
-            //$this->addFlash('success', 'Vous n'etes plus sur cette sortie');
+            $this->addFlash('success','vous ne participez plus a cette sortie');
         }
         else {
-            //$this->addFlash('error', 'Cette sortie n'est plus active');
+            $this->addFlash('error','cette sortie est annulee');
         }
 
         return $this->redirectToRoute('app_sortie_show', [
