@@ -39,6 +39,7 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/participant/new, roles: ROLE_ADMIN }
         - { path: ^/participant/edit/user/, roles: ROLE_ADMIN }
+        - { path: ^/ville/, roles: ROLE_ADMIN }
         - { path: ^/participant/edit/, roles: ROLE_USER }
         -  { path: ^/sortie/new, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }
